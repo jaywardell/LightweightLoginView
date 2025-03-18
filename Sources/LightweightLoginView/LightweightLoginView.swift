@@ -9,6 +9,8 @@ public protocol LightweightLoginViewModel: Sendable {
     var loginPromptIcon: Image { get }
     var loginPromptIconColor: Color { get }
     
+    var processButtonTitle: String { get }
+
     func process(username: String, password: String) async throws
   
     func validate(username: String) -> Bool
@@ -17,7 +19,7 @@ public protocol LightweightLoginViewModel: Sendable {
     func processButtonEnabled(username: String, password: String) -> Bool
 }
 
-extension LightweightLoginViewModel {
+public extension LightweightLoginViewModel {
     
     func validate(username: String) -> Bool {
         !username.isEmpty
