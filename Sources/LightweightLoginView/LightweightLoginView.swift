@@ -71,6 +71,22 @@ public struct LightweightLoginView
         self.dismissUI = dismissUI
     }
     
+    private var usernameField: some View {
+        TextField("Username", text: $username, onCommit: validateEntry)
+            .autocorrectionDisabled(true)
+#if !os(macOS)
+            .textInputAutocapitalization(.never)
+#endif
+            .submitLabel(.next)
+            .focused($focusedField, equals: .username)
+    }
+
+    private var passwordField: some View {
+        SecureField("Password", text: $password, onCommit: validateEntry)
+            .submitLabel(.done)
+            .focused($focusedField, equals: .password)
+    }
+    
     public var body: some View {
         VStack(alignment: .leading) {
                         
@@ -83,19 +99,18 @@ public struct LightweightLoginView
                         .foregroundStyle(model.loginPromptIconColor)
                 }
                 .font(.headline)
-                
-                TextField("Username", text: $username, onCommit: validateEntry)
-                    .autocorrectionDisabled(true)
-#if !os(macOS)
-                    .textInputAutocapitalization(.never)
-#endif
-                    .submitLabel(.next)
-                    .focused($focusedField, equals: .username)
-                
-                SecureField("Password", text: $password, onCommit: validateEntry)
-                    .submitLabel(.done)
-                    .focused($focusedField, equals: .password)
 
+                if verticalSpacing {
+                    usernameField
+                    passwordField
+                }
+                else {
+                    HStack {
+                        usernameField
+                        passwordField
+                    }
+                }
+                
                 if let error {
                     Text(error.localizedDescription)
                         .font(.footnote)
