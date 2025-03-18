@@ -137,6 +137,7 @@ public struct LightweightLoginView
                 .textFieldStyle(.roundedBorder)
                 .padding()
                 .onAppear { focusedField = .username }
+                .keyboardShortcut(.defaultAction)
         }
         .padding(.horizontal)
     }
