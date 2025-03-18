@@ -44,6 +44,7 @@ public struct LightweightLoginView
 : View {
         
     let model: Model
+    let verticalSpacing: Bool
     
     let cancelButton: () -> CancelButton
     let dismissUI: () -> Void
@@ -60,10 +61,12 @@ public struct LightweightLoginView
     
     public init(
         model: Model,
+        verticalSpacing: Bool = true,
         cancelButton: @escaping () -> CancelButton,
         dismissUI: @escaping () -> Void
     ) {
         self.model = model
+        self.verticalSpacing = verticalSpacing
         self.cancelButton = cancelButton
         self.dismissUI = dismissUI
     }
@@ -103,7 +106,9 @@ public struct LightweightLoginView
             
         }
 
-        Spacer()
+        if verticalSpacing {
+            Spacer()
+        }
         
         HStack {
             cancelButton()
@@ -182,6 +187,14 @@ struct ExampleViewModel: LightweightLoginViewModel {
 
 #Preview {
     LightweightLoginView(model: ExampleViewModel()) {
+        Button("Cancel") {
+            print("cancelled")
+        }
+    } dismissUI: {}
+}
+
+#Preview("Compact Vertical Spacing") {
+    LightweightLoginView(model: ExampleViewModel(), verticalSpacing: false) {
         Button("Cancel") {
             print("cancelled")
         }
