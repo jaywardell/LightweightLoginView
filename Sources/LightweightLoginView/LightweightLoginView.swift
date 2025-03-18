@@ -58,7 +58,7 @@ public struct LightweightLoginView
     }
     @FocusState private var focusedField: FocusedField?
     
-    init(
+    public init(
         model: Model,
         cancelButton: @escaping () -> CancelButton,
         dismissUI: @escaping () -> Void
