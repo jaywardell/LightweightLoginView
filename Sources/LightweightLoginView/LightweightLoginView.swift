@@ -90,7 +90,7 @@ public struct LightweightLoginView
                     .focused($focusedField, equals: .username)
                 
                 SecureField("Password", text: $password, onCommit: validateEntry)
-                    .submitLabel(.go)
+                    .submitLabel(.done)
                     .focused($focusedField, equals: .password)
 
                 if let error {
