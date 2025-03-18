@@ -49,6 +49,11 @@ public struct LightweightLoginView
     let cancelButton: () -> CancelButton
     let dismissUI: () -> Void
     
+    // TODO: bluesky allows for alternative login servers
+    // so we need to allow for a server field as well
+    // ATProtocolConfiguration calls it a pdsURL
+    // should probably make it generic and make it be settable
+    // whether it's needed or not
     @State private var username = ""
     @State private var password = ""
 
