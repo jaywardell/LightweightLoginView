@@ -11,7 +11,7 @@ public protocol LightweightLoginViewModel: Sendable {
     
     var processButtonTitle: String { get }
 
-    func process(username: String, password: String) async throws
+    func processLogin(username: String, password: String) async throws
   
     func validate(username: String) -> Bool
     func validate(password: String) -> Bool
@@ -169,7 +169,7 @@ public struct LightweightLoginView
     private func handleLogin() async {
         Task.detached {
             do {
-                try await model.process(username: username, password: password)
+                try await model.processLogin(username: username, password: password)
                 await MainActor.run {
                     dismissUI()
                 }
@@ -200,7 +200,7 @@ struct ExampleViewModel: LightweightLoginViewModel {
     
     var loginPromptIconColor: Color { Color.teal }
                 
-    func process(username: String, password: String) async throws {
+    func processLogin(username: String, password: String) async throws {
         struct Error: Swift.Error {}
         throw Error()
     }
