@@ -127,7 +127,7 @@ public struct LightweightLoginView
         
         HStack {
             cancelButton()
-                .buttonStyle(.borderless)
+//                .buttonStyle(.borderless)
             
             Spacer()
             
