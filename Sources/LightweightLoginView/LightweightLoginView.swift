@@ -34,6 +34,8 @@ extension LightweightLoginViewModel {
     }
 }
 
+// MARK: -
+
 public struct LightweightLoginView
 <Model: LightweightLoginViewModel,
  CancelButton: View>
@@ -159,6 +161,8 @@ public struct LightweightLoginView
         }
     }
 }
+
+// MARK: -
 
 struct ExampleViewModel: LightweightLoginViewModel {
     
