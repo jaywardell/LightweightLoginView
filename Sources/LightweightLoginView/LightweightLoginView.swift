@@ -216,6 +216,12 @@ public struct LightweightLoginView
 
 struct ExampleViewModel: LightweightLoginViewModel {
     
+    let throwError: Bool
+    
+    init(throwError: Bool = false) {
+        self.throwError = throwError
+    }
+    
     var loginPrompt: String { "Generic Login" }
     
     var loginPromptIcon: Image { Image(systemName: "scissors") }
@@ -223,8 +229,10 @@ struct ExampleViewModel: LightweightLoginViewModel {
     var loginPromptIconColor: Color { Color.teal }
                 
     func processLogin(username: String, password: String) async throws {
-        struct Error: Swift.Error {}
-//        throw Error()
+        if throwError {
+            struct Error: Swift.Error {}
+            throw Error()
+        }
     }
     
     var dismissDelay: Duration { .seconds(3) }
@@ -232,6 +240,16 @@ struct ExampleViewModel: LightweightLoginViewModel {
 
 #Preview {
     LightweightLoginView(model: ExampleViewModel()) {
+        Button("Cancel") {
+            print("cancelled")
+        }
+    } dismissUI: {
+        print("done")
+    }
+}
+
+#Preview("Throwing an Error") {
+    LightweightLoginView(model: ExampleViewModel(throwError: true)) {
         Button("Cancel") {
             print("cancelled")
         }
