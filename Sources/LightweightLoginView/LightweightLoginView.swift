@@ -199,7 +199,7 @@ public struct LightweightLoginView
                 await MainActor.run {
                     self.error = error
                     clear()
-                    loggingIn = false
+                    loggingIn = nil
                 }
             }
         }
