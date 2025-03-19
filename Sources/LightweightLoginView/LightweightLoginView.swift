@@ -127,6 +127,14 @@ public struct LightweightLoginView
             .padding()
             
         }
+        .onChange(of: username) { oldValue, newValue in
+            guard !newValue.isEmpty else { return }
+            error = nil
+        }
+        .onChange(of: password) { oldValue, newValue in
+            guard !newValue.isEmpty else { return }
+            error = nil
+        }
 
         if verticalSpacing {
             Spacer()
