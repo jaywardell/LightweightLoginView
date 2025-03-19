@@ -1,0 +1,15 @@
+{
+  "originHash" : "623e07a129dcf8cdd002791728b7d3f7b6d40f3002012ca634f06243513f38f8",
+  "pins" : [
+    {
+      "identity" : "singleusebutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaywardell/SingleUseButton",
+      "state" : {
+        "revision" : "8c79a528b867b25e2e75332476a62110cb207932",
+        "version" : "0.1.2"
+      }
+    }
+  ],
+  "version" : 3
+}

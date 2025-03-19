@@ -11,6 +11,8 @@ public protocol LightweightLoginViewModel: Sendable {
     
     var processButtonTitle: String { get }
 
+    var dismissDelay: Duration { get }
+    
     func processLogin(username: String, password: String) async throws
   
     func validate(username: String) -> Bool
@@ -136,9 +138,15 @@ public struct LightweightLoginView
             
             Spacer()
             
+            if (true == loggingIn) {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .controlSize(.small)
+            }
+            
             Button(model.processButtonTitle, role: .none, action: doneButtonPressed)
                 .buttonStyle(.borderedProminent)
-                .disabled(!model.processButtonEnabled(username: username, password: password))
+                .disabled(!model.processButtonEnabled(username: username, password: password) || nil != loggingIn)
                 .textFieldStyle(.roundedBorder)
                 .padding()
                 .onAppear { focusedField = .username }
@@ -166,18 +174,32 @@ public struct LightweightLoginView
         password = ""
     }
     
+    @State private var loggingIn: Bool?
     private func handleLogin() async {
+        await MainActor.run {
+            loggingIn = true
+        }
+        
         Task.detached {
             do {
                 try await model.processLogin(username: username, password: password)
                 await MainActor.run {
-                    dismissUI()
+                    loggingIn = false
+                    
+                    Task.detached {
+                        try await Task.sleep(for: model.dismissDelay)
+
+                        await MainActor.run {
+                            dismissUI()
+                        }
+                    }
                 }
             }
             catch {
                 await MainActor.run {
                     self.error = error
                     clear()
+                    loggingIn = false
                 }
             }
         }
@@ -202,8 +224,10 @@ struct ExampleViewModel: LightweightLoginViewModel {
                 
     func processLogin(username: String, password: String) async throws {
         struct Error: Swift.Error {}
-        throw Error()
+//        throw Error()
     }
+    
+    var dismissDelay: Duration { .seconds(3) }
 }
 
 #Preview {
@@ -211,7 +235,9 @@ struct ExampleViewModel: LightweightLoginViewModel {
         Button("Cancel") {
             print("cancelled")
         }
-    } dismissUI: {}
+    } dismissUI: {
+        print("done")
+    }
 }
 
 #Preview("Compact Vertical Spacing") {
